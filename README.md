@@ -355,3 +355,101 @@ microstack.openstack image create --file images/xenial-server-cloudimg-amd64.img
 
 Ok! now that our images have been added to our microstack, we need to create metadatas for them on juju.
 
+You will need to create a folder named `simplestreams` at your home folder for images metadatas.
+
+`mkdir ~/simplestreams`
+
+and run `python3 HomeCloud/microstack/image-metadata.py`
+
+```
+Do you want to add bionic to juju? (y/n):y
+Do you want to add cirros to juju? (y/n):n
+Do you want to add focal to juju? (y/n):y
+Do you want to add xenial to juju? (y/n):y
+```
+
+Create a microstack flavor for the controller:
+
+`openstack flavor create juju-controller --ram 2048 --disk 20 --vcpus 1`
+
+And bootstrap a juju controller:
+
+```
+juju bootstrap --config network=juju-net \
+  --config external-network=public-net \
+  --config use-floating-ip=true \
+  --bootstrap-series=bionic \
+  --bootstrap-constraints instance-type=juju-controller \
+  --metadata-source ~/simplestreams \
+  microstack microstack
+```
+
+The bootstrap may fail because the instance got status `BUILD` for too long.
+But dont worry, if the bootstrap failed because of that just retry and it should work!
+
+If the bootstrap fails you'll maybe need to remove a security group by yourself:
+
+```
+ERROR failed to bootstrap model: cannot start bootstrap instance: cannot run instance: max duration exceeded: instance "a0902f41-d049-4c11-8d57-b2eda76a3ba1" has status BUILD
+WARNING cannot delete security group "juju-ddcd414b-fd72-4d3d-8cd3-1a3ed6e2e96c-14fe29ab-b133-4058-8fb3-e4940fab3c6d-0". Used by another model?
+```
+
+`openstack security group list --format yaml`
+
+```yaml
+- Description: juju group
+  ID: 3587a263-bdf3-44fc-a928-146fc18aa143
+  Name: juju-ddcd414b-fd72-4d3d-8cd3-1a3ed6e2e96c-14fe29ab-b133-4058-8fb3-e4940fab3c6d-0
+  Project: 29223ea08b5d4ccf999fa697dc802dae
+  Tags: []
+- Description: Default security group
+  ID: 9aab11a2-b25f-41f4-96e3-1c6d80ea23d0
+  Name: default
+  Project: 29223ea08b5d4ccf999fa697dc802dae
+  Tags: []
+- Description: Default security group
+  ID: b5fe9208-1562-4cfd-bac1-350ac36cbe74
+  Name: default
+  Project: e044ba87d18f402c9d65890224578632
+  Tags: []
+- Description: Default security group
+  ID: c99394f8-5133-418e-9809-2a014e83fd92
+  Name: default
+  Project: ''
+  Tags: []
+- Description: ''
+  ID: dc90de11-eb6e-4dfb-be36-ecccf949d1eb
+  Name: public-testing
+  Project: 29223ea08b5d4ccf999fa697dc802dae
+  Tags: []
+```
+
+here you can see the security group created by juju
+
+`openstack security group delete 3587a263-bdf3-44fc-a928-146fc18aa143`
+
+`openstack security group list --format yaml`
+
+```yaml
+- Description: Default security group
+  ID: 9aab11a2-b25f-41f4-96e3-1c6d80ea23d0
+  Name: default
+  Project: 29223ea08b5d4ccf999fa697dc802dae
+  Tags: []
+- Description: Default security group
+  ID: b5fe9208-1562-4cfd-bac1-350ac36cbe74
+  Name: default
+  Project: e044ba87d18f402c9d65890224578632
+  Tags: []
+- Description: Default security group
+  ID: c99394f8-5133-418e-9809-2a014e83fd92
+  Name: default
+  Project: ''
+  Tags: []
+- Description: ''
+  ID: dc90de11-eb6e-4dfb-be36-ecccf949d1eb
+  Name: public-testing
+  Project: 29223ea08b5d4ccf999fa697dc802dae
+  Tags: []
+```
+And the group has been deleted
