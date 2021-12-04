@@ -1,0 +1,67 @@
+<mxfile host="65bd71144e">
+    <diagram id="UIbSUVmdCuoodC6fGrbV" name="Page-1">
+        <mxGraphModel dx="883" dy="349" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.55;exitY=0.95;exitDx=0;exitDy=0;exitPerimeter=0;endArrow=none;endFill=0;" parent="1" source="BB-kOBrdDcckAisoKjOn-1" target="BB-kOBrdDcckAisoKjOn-4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="430" y="256"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-1" value="&lt;div&gt;Internet&lt;/div&gt;" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="370" y="180" width="120" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" parent="1" source="BB-kOBrdDcckAisoKjOn-4" target="BB-kOBrdDcckAisoKjOn-7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-4" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" parent="1" vertex="1">
+                    <mxGeometry x="392.33" y="330" width="75.34" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-6" value="Mikrotik RB2011UiAS-RM" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="467.67" y="345" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" parent="1" source="BB-kOBrdDcckAisoKjOn-7" target="BB-kOBrdDcckAisoKjOn-12" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-7" value="" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image;image=img/lib/allied_telesis/switch/Switch_24_port_L2.svg;" parent="1" vertex="1">
+                    <mxGeometry x="386.22999999999996" y="450" width="87.53" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-9" value="Mikrotik CSS326-24G-2S+RM" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="473.76" y="470" width="180" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" parent="1" source="BB-kOBrdDcckAisoKjOn-11" target="BB-kOBrdDcckAisoKjOn-7" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="480" y="560"/>
+                            <mxPoint x="440" y="560"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-11" value="" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="610.5" width="59.17" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-12" value="" style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="370" y="610" width="59.17" height="75" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-16" value="HP proliant DL360 G6&lt;br&gt;MicroStack node 0&lt;br&gt;Specs:&lt;br&gt;-8c/16t&lt;br&gt;-32Gb ram&lt;br&gt;" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="509.16999999999996" y="615" width="130" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="BB-kOBrdDcckAisoKjOn-17" value="Lenovo Tiny M93p&lt;br&gt;Specs:&lt;br&gt;-4c/8t&lt;br&gt;-8Gb ram" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="260" y="615" width="110" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="IP List" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+                    <mxGeometry x="330" y="730" width="216" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="DL360 G6: 10.2.0.253" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2">
+                    <mxGeometry y="26" width="216" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="M93p: 10.2.0.250" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" vertex="1" parent="2">
+                    <mxGeometry y="50" width="216" height="26" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

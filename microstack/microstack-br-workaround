@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Workaround to enable physical network access to MicroStack
+#
+# Adds the server physical ip address to br-ex.
+
+
+physicalcidr=10.2.1.253/24
+
+# Add IP address to br-ex
+ip address add $physicalcidr dev br-ex || :
+ip link set br-ex up || :

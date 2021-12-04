@@ -1,0 +1,15 @@
+[Unit]
+Description=Service for adding physical ip to microstack bridge
+Requires=snap.microstack.external-bridge.service
+After=snap.microstack.external-bridge.service
+
+[Service]
+ExecStart=/usr/local/bin/microstack-br-workaround
+SyslogIdentifier=microstack-br-workaround
+Restart=no
+WorkingDirectory=/usr/local/bin
+TimeoutStopSec=30
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target

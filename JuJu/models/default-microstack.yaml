@@ -1,0 +1,4 @@
+use-floating-ip: true
+image-metadata-url: /home/senseicho/simplestreams/images
+network: local
+external-network: public
