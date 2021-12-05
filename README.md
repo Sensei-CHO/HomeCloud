@@ -374,7 +374,7 @@ Create a microstack flavor for the controller:
 
 And bootstrap a juju controller:
 
-```
+```bash
 juju bootstrap --config network=juju-net \
   --config external-network=public-net \
   --config use-floating-ip=true \
@@ -452,4 +452,12 @@ here you can see the security group created by juju
   Project: 29223ea08b5d4ccf999fa697dc802dae
   Tags: []
 ```
-And the group has been deleted
+And the group has been deleted!
+
+
+
+
+:warning: WARNING :warning:
+
+I'VE ECOUNTERED SOME ISSUES BOOTSTRAPING A JUJU CONTROLLER ON MICROSTACK
+THE DOCUMENTATION CAN CHANGE
