@@ -1,7 +1,0 @@
-clouds:
-    microstack:
-      type: openstack
-      auth-types: [access-key,userpass]
-      regions:
-        microstack:
-           endpoint: http://10.2.1.253:5000/v3

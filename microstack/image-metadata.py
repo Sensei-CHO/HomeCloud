@@ -18,7 +18,7 @@ def runcommand(command, json_output=False):
 for x in runcommand("microstack.openstack image list --format json", json_output=True):
     result = input(f"Do you want to add {x['Name']} to juju? (y/n):")
     if result == "y":
-        runcommand(f"juju metadata generate-image -d ~/simplestreams -i {x['ID']} -s {x['Name']} -r microstack -u http://10.2.1.253:5000/v3")
+        runcommand(f"juju metadata generate-image -d ~/simplestreams -i {x['ID']} -s {x['Name']} -r microstack -u https://10.2.0.253:5000/v3")
     elif result == "n":
         pass
     else:
