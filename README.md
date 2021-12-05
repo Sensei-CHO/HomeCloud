@@ -94,6 +94,7 @@ sudo microstack init --control
 Would you like to configure clustering? (yes/no) [default=yes] > 
 2021-12-05 20:40:42,748 - microstack_init - INFO - Configuring clustering ...
 Please enter the ip address of the control node [default=10.2.0.253] > 10.2.0.253
+...
 ```
 
 The init process may fail with this error:
@@ -177,6 +178,103 @@ The result should look like this:
 ```
 
 ### Network
+
+It's time to login in the Microstack Dashboard!
+Go to `<microstack ip>`(10.2.0.253 in my case) in your browser:
+
+![Alt text](images/OpenStack-Dashboard.png?raw=true "OpenStack Dashboard")
+
+Now that we are logged in the dashboard, we have to remove the existing router and networks to create new ones.
+
+Go to the `Admin` section and `Routers`
+
+![Alt text](images/remove-router.webp?raw=true "Remove router")
+
+And now to `networks`
+
+![Alt text](images/remove-networks.webp?raw=true "Remove networks")
+
+Let's add a public network to our Microstack!
+
+Network configuration:
+
+![Alt text](images/public-net.png?raw=true "Network configuration")
+
+Subnet configuration:
+
+![Alt text](images/public-subnet.png?raw=true "Subnet configuration")
+
+Subnet details:
+
+![Alt text](images/public-details.png?raw=true "Subnet details")
+
+And now our network should appear in the list:
+
+![Alt text](images/public-shown.png?raw=true "Network shown")
+
+Time to configure it...
+
+```
+# ovs-vsctl add-port br-ex enp2s0f1
+# ip addr flush dev enp2s0f1
+# ip addr add 10.2.1.253/24 dev br-ex
+# ip link set br-ex up
+```
+You'll need to replace `enp2s0f1` with your second NIC.
+
+Now that we have added an IP address to `br-ex`, you'll need to add `microstack-br-workaround`(you can find it in the `microstack` foder) to 
+`/usr/local/bin` to your server and do
+
+```bash
+chmod +x /usr/local/bin/microstack-br-workaround
+```
+
+You'll also need to create a service for this script to run on reboot.
+
+Add `microstack-br-workaround.service` to your server under `/etc/systemd/system` and execute
+```
+# systemctl daemon-reload
+# systemctl enable microstack-br-workaround.service
+```
+
+We're almost finished with the microstack configuration, trust me...
+
+Ok so, we now need to create a local network for our machines to communicate together.
+
+Network configuration:
+
+![Alt text](images/juju-net.png?raw=true "Network configuration")
+
+Subnet configuration:
+
+![Alt text](images/juju-subnet.png?raw=true "Subnet configuration")
+
+Subnet details:
+
+![Alt text](images/juju-details.png?raw=true "Subnet details")
+
+And now the router !
+
+Router configuration:
+
+![Alt text](images/juju-public-router.png?raw=true "Router configuration")
+
+And now the new router should appear:
+
+![Alt text](images/juju-public-router-shown.png?raw=true "Router shown")
+
+Adding the local network to the router:
+
+![Alt text](images/juju-public-router-add-network.png?raw=true "Add network")
+
+Waiting for our router to be ready:
+
+![Alt text](images/juju-public-router-wait-ready.png?raw=true "Wait ready")
+
+And boom!
+
+![Alt text](images/juju-public-router-ready.png?raw=true "Router ready")
+
 
 ### Testing
 
