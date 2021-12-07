@@ -85,6 +85,7 @@ Here are the steps to install what i need for my cloud
 ## Microstack
 
 ### Init
+This step if for deploying an openstack cloud which will be used as a backing cloud for juju.
 
 ```bash
 sudo microstack init --control
@@ -122,12 +123,16 @@ Don't worry just do a retry and it should work
 
 ### Aliases
 
+Just to make my life easier
+
 ```bash
 sudo snap alias microstack.openstack openstack
 sudo snap alias microstack.ovs-vsctl ovs-vsctl
 ```
 
 ### Quotas
+
+Default qotas are not enough to deploy what i want.
 
 ```bash
 openstack quota set --cores 16 --ram 32768 --instances 100 --floating-ips 250 --secgroups 200 --secgroup-rules 1000 --ports 300 admin
@@ -179,14 +184,19 @@ The result should look like this:
 
 ### Network
 
-
 #### Delete existing router and networks
 
 Delete existing router and networks from the dashboard at `https://<IP>` using password at
 ```bash
 sudo snap get microstack config.credentials.keystone-password
 ```
+
+to create new ones
+
 ##### Public network
+
+This network will be used for allocating IPs from my LAN and access apps and machines easier.
+
 Create a new network from the dashboard in the `Admin` section
 
 ```yaml
@@ -202,6 +212,8 @@ Gateway IP: 10.2.0.254
 Enable DHCP: no
 Allocation Pools: 10.2.1.1,10.2.1.252
 ```
+
+Creating a bridge for the net to work on my LAN
 
 In your terminal
 
@@ -224,7 +236,12 @@ Copy `HomeCloud/microstack/microstack-br-workaround` in `/etc/systemd/system` an
 systemctl daemon-reload
 systemctl enable microstack-br-workaround.service
 ```
+
+To reload the configuration on reboot
+
 #### Private network
+
+This network will be used for machines to communicate with each other.
 
 Create a new network from the dashboard in the `Admin` section
 
@@ -240,6 +257,8 @@ Enable DHCP: yes
 
 #### Create a router
 
+This router will link `public-net` and `juju-net` for LAN IPs allocation.
+
 Create a new router from the dashboard in the `Admin` section
 
 ```yaml
@@ -252,11 +271,49 @@ Enable SNAT: yes
 
 #### Topology
 
+To link `public-net` and `juju-net` to the router.
+
 In the `Project` -> `Network Topology` section, click on the router and `add interface`, select `juju-net` and wait for the links to be up.
 
-
-
 ### Testing
+
+This step will help us testing our network configuration.
+
+#### Security Group
+
+Go to `Project` -> `Network` -> `Security Groups`
+
+Create a new group and add 2 rules:
+
+- `All ICMP`
+- `SSH`
+
+#### Test Instance
+
+This instance will be used to test the floating IP allocation and accessibility.
+
+```bash
+openstack server create \
+  --image cirros \
+  --flavor m1.tiny \
+  --security-group default-public \
+  --network juju-net \
+  test-instance
+```
+
+Now go to the dashboard and allocate a floating ip to the `test-instance`
+
+And try to log in the instance with SSH
+
+```bash
+ssh cirros@<floating ip>
+```
+
+Default password:
+
+`gocubsgo`
+
+
 
 ## Microk8s
 
