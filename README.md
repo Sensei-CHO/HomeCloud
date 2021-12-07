@@ -85,7 +85,7 @@ Here are the steps to install what i need for my cloud
 ## Microstack
 
 ### Init
-This step if for deploying an openstack cloud which will be used as a backing cloud for juju.
+This step if for deploying an microstack cloud which will be used as a backing cloud for juju.
 
 ```bash
 sudo microstack init --control
@@ -313,7 +313,80 @@ Default password:
 
 `gocubsgo`
 
+To delete the instance:
 
+```bash
+openstack server delete test-instance
+```
+### Images
+
+Go to https://cloud-images.ubuntu.com and download
+
+- Focal
+- Bionic
+- Xenial
+
+and add them to microstack
+
+```bash
+microstack.openstack image create --file images/bionic-server-cloudimg-amd64.img --public --container-format=bare --disk-format=qcow2 bionic
+
+microstack.openstack image create --file images/focal-server-cloudimg-amd64.img --public --container-format=bare --disk-format=qcow2 focal
+
+microstack.openstack image create --file images/xenial-server-cloudimg-amd64.img --public --container-format=bare --disk-format=qcow2 xenial
+```
+
+juju will need to create metadatas for these images.
+
+Run `python3 image-metadata.py`
+
+```
+Do you want to add bionic to juju? (y/n):y
+Do you want to add cirros to juju? (y/n):n
+Do you want to add focal to juju? (y/n):y
+Do you want to add xenial to juju? (y/n):y
+```
+
+### juju
+
+Now that the microstack cloud is up, we need to add it to juju
+
+#### Add microstack to juju
+
+For juju to deploy apps on a cloud, we need to add one.
+
+```bash
+juju add-cloud microstack
+```
+
+```
+Cloud Types
+  lxd
+  maas
+  manual
+  openstack
+  vsphere
+
+Select cloud type: openstack
+
+Enter the API endpoint url for the cloud []: https://10.20.20.1:5000/v3
+
+Enter a path to the CA certificate for your cloud if one is required to access it. (optional) [none]: none
+
+Auth Types
+  access-key
+  userpass
+
+Select one or more auth types separated by commas: userpass
+
+Enter region name: microstack
+
+Enter the API endpoint url for the region [use cloud api url]: https://10.20.20.1:5000/v3
+
+Enter another region? (y/N): n
+```
+
+#### Add credentials for microstack
 
 ## Microk8s
 
