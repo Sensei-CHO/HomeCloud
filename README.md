@@ -347,6 +347,8 @@ Do you want to add focal to juju? (y/n):y
 Do you want to add xenial to juju? (y/n):y
 ```
 
+This code will add images metadata to juju in the `~/simplestreams`
+
 ### juju
 
 Now that the microstack cloud is up, we need to add it to juju
@@ -369,9 +371,9 @@ Cloud Types
 
 Select cloud type: openstack
 
-Enter the API endpoint url for the cloud []: https://10.20.20.1:5000/v3
+Enter the API endpoint url for the cloud []: https://10.2.0.253:5000/v3
 
-Enter a path to the CA certificate for your cloud if one is required to access it. (optional) [none]: none
+Enter a path to the CA certificate for your cloud if one is required to access it. (optional) [/var/snap/microstack/common/etc/ssl/certs/cacert.pem]: [PRESS ENTER]
 
 Auth Types
   access-key
@@ -381,12 +383,75 @@ Select one or more auth types separated by commas: userpass
 
 Enter region name: microstack
 
-Enter the API endpoint url for the region [use cloud api url]: https://10.20.20.1:5000/v3
+Enter the API endpoint url for the region [use cloud api url]: https://10.2.0.253:5000/v3
 
 Enter another region? (y/N): n
 ```
 
 #### Add credentials for microstack
+
+juju will need to log in microstack to deploy apps
+
+```bash
+source /var/snap/microstack/common/etc/microstack.rc
+juju autoload-credentials
+```
+
+```
+1. LXD credential "localhost" (new)
+2. openstack region "<unspecified>" project "admin" user "admin" (new)
+3. rackspace credential for user "admin" (new)
+Select a credential to save by number, or type Q to quit: 2
+
+Select the cloud it belongs to, or type Q to quit [microstack]: microstack
+
+Saved openstack region "<unspecified>" project "admin" user "admin" to cloud microstack locally
+
+1. LXD credential "localhost" (new)
+2. openstack region "<unspecified>" project "admin" user "admin" (existing, will overwrite)
+3. rackspace credential for user "admin" (new)
+Select a credential to save by number, or type Q to quit: q
+```
+
+#### Bootstraping a controller
+
+To deploy apps and machines on a cloud, juju need to first deploy a controller.
+
+```bash
+juju bootstrap --bootstrap-series=bionic \
+  --metadata-source=~/simplestreams \
+  --model-default network=juju-net \
+  --model-default external-network=public-net \
+  --model-default use-floating-ip=true \
+  microstack microstack
+```
+
+Sometimes the bootstrap procces fails because the controller instance took too long to be up. It often appends because this is the first time using an new microstack image.
+juju may also not delete a sec group.
+
+```
+WARNING Config attribute "use-floating-ip" is deprecated.
+You can instead use the constraint "allocate-public-ip".
+Creating Juju controller "microstack" on microstack/microstack
+Looking for packaged Juju agent version 2.9.21 for amd64
+Located Juju agent version 2.9.21-ubuntu-amd64 at https://streams.canonical.com/juju/tools/agent/2.9.21/juju-2.9.21-ubuntu-amd64.tgz
+WARNING Config attribute "use-floating-ip" is deprecated.
+You can instead use the constraint "allocate-public-ip".
+Launching controller instance(s) on microstack/microstack...
+ - instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD,
+ - instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD,
+ - instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD,
+ - instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD,
+ - instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD, WARNING Unable to retrieve details for created instance "1b0c9858-bfe6-44f7-a527-1f026f471b20": max duration exceeded: instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD; attempting to terminate it
+ERROR failed to bootstrap model: cannot start bootstrap instance: cannot run instance: max duration exceeded: instance "1b0c9858-bfe6-44f7-a527-1f026f471b20" has status BUILD
+WARNING cannot delete security group "juju-ce2784a9-1cbd-4f9f-8cf6-e643f7591604-4346b56b-08b1-4057-8811-49d5a516996b-0". Used by another model?
+```
+
+Just delete it and retry bootstraping
+
+```bash
+openstack security group delete <secgroup>
+```
 
 ## Microk8s
 
